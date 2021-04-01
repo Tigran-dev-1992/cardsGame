@@ -1,4 +1,4 @@
-import React, {useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 //@ts-ignore
 import Aos from 'aos'
 //@ts-ignore
@@ -23,19 +23,22 @@ import gameEndUrl from './sound/gameEnd.mp3';
 
 
 function Card() {
-    const [click]= useSound(clickUrl,{
-        sprite:{
-            in:[0,2000] 
+    const [click] = useSound(clickUrl, {
+        sprite: {
+            in: [0, 2000]
         }
     })
-    const [computerWin,{...soundC}]= useSound(computerWinUrl)
-    const [userWin,{...soundU}]= useSound(userWinUrl)
+    const [computerWin, { ...soundC }] = useSound(computerWinUrl)
+    const [userWin, { ...soundU }] = useSound(userWinUrl)
+    const [gameEnd, { ...soundG }] = useSound(gameEndUrl)
     const computerWinStop = soundC.stop
     const userWinStop = soundU.stop
+    const gameEndStop = soundG.stop
 
-    
+
 
     useEffect(() => { Aos.init({ duration: 1500 }) }, [])
+
 
 
     const [cardShake, setCardShake] = useState(false)
@@ -43,12 +46,16 @@ function Card() {
     const { ...card } = useContext(CardContext)
     const {
         playerName, deck, playerCount,
-        computerCount,round, roundWinner,
+        computerCount, round, roundWinner,
         playerCardData, computerCardData, nextRoundVisible,
         playerCardVizible, computerCardVizible,
         addPlayerCount, addComputerCount, setAboutGameVizible,
         setRound, setRoundWinner, setComputerCardData,
-        setPlayerCardData, setNextRoundVizible, setPlayerCardVizible, setComputerCardVizible } = { ...card }
+        setPlayerCardData, setNextRoundVizible, setPlayerCardVizible,
+        setComputerCardVizible } = { ...card }
+
+
+
 
 
     const userCard = deck[playerCardData.playerSuitNum][playerCardData.playerCardIndex].card
@@ -57,18 +64,16 @@ function Card() {
 
 
 
-
-
     const getWinner = (userCardIndex: number, computerCardIndex: number) => {
         setNextRoundVizible(true)
         setCardShake(false)
         if (userCardIndex > computerCardIndex) {
-            userWin()
+            playerCount === 4 ? gameEnd() : userWin()
             setRoundWinner(playerName)
             addPlayerCount(playerCount + 1)
         }
         else if (userCardIndex < computerCardIndex) {
-            computerWin()
+            computerCount === 4 ? gameEnd() : computerWin()
             setRoundWinner("computer")
             addComputerCount(computerCount + 1)
         } else {
@@ -83,7 +88,7 @@ function Card() {
 
     const openCards = () => {
         setCardShake(true)
-        click({id:"in"})
+        click({ id: "in" })
         const playerSuitNum = getNumber(3, 0)
         const playerCardIndex = getNumber(12, 0)
         const computerSuitNum = getNumber(3, 0)
@@ -106,18 +111,19 @@ function Card() {
 
 
     const nextRoundProps = {
-        round,playerName, roundWinner, computerCount,
+        round, playerName, roundWinner, computerCount,
         playerCount, setNextRoundVizible,
         setRound, addPlayerCount,
         addComputerCount, setComputerCardVizible,
-        setPlayerCardVizible,computerWinStop,userWinStop,
+        setPlayerCardVizible, computerWinStop, userWinStop,
+        gameEndStop
     }
 
     const playersProps = {
         computerCount, playerCount, round,
-        setAboutGameVizible,setComputerCardVizible,
-        setPlayerCardVizible,setNextRoundVizible, setRound,
-        addPlayerCount,addComputerCount
+        setAboutGameVizible, setComputerCardVizible,
+        setPlayerCardVizible, setNextRoundVizible, setRound,
+        addPlayerCount, addComputerCount
     }
 
     return (
