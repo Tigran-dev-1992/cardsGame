@@ -11,6 +11,7 @@ import useSound from 'use-sound';
 import clickUrl from './sound/click.mp3';
 import computerWinUrl from './sound/computerWin.mp3';
 import userWinUrl from './sound/userWin.mp3';
+import gameEndUrl from './sound/gameEnd.mp3';
 
 
 
@@ -31,6 +32,7 @@ function Card() {
     const [userWin,{...soundU}]= useSound(userWinUrl)
     const computerWinStop = soundC.stop
     const userWinStop = soundU.stop
+
     
 
     useEffect(() => { Aos.init({ duration: 1500 }) }, [])
