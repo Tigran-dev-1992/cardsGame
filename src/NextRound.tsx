@@ -48,7 +48,7 @@ const NextRound: React.FC<PropsType> = ({
                         }
                     </div>
                     <div className="nextRound__img">
-                        {roundWinner === "player"
+                        {roundWinner === playerName
                             ? <img src="https://www.clipartmax.com/png/full/191-1917338_programmer-computer-programming-clip-art-programador-informatico.png" alt="" />
                             : <img src="https://www.primolo.de/sites/default/files/user_generated_content/website_content_images/5048-kumlehn/computer.gif" alt="" />
                         }
