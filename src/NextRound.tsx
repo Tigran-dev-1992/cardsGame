@@ -22,12 +22,14 @@ const NextRound: React.FC<PropsType> = ({
 }) => {
 
     const handleClick = () => {
+        roundWinner===playerName?userWinStop():computerWinStop()
         setComputerCardVizible(false)
         setPlayerCardVizible(false)
         setNextRoundVizible(false)
         setRound(round + 1)
     }
     const newGame = () => {
+        roundWinner===playerName?userWinStop():computerWinStop()
         setComputerCardVizible(false)
         setPlayerCardVizible(false)
         setNextRoundVizible(false)
