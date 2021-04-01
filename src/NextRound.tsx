@@ -1,6 +1,7 @@
 import React from 'react'
 
 type PropsType = {
+    playerName:string
     round: number
     roundWinner: string
     playerCount: number
@@ -11,14 +12,17 @@ type PropsType = {
     addComputerCount: (computerCount: number) => void
     setComputerCardVizible: (computerCardVizible: boolean) => void
     setPlayerCardVizible: (playerCardVizible: boolean) => void
+    userWinStop: (id?: string | undefined) => void
+    computerWinStop: (id?: string | undefined) => void
 }
 const NextRound: React.FC<PropsType> = ({
-    roundWinner, round, playerCount, computerCount,
+    roundWinner, round, playerCount, computerCount,playerName,
     setNextRoundVizible, setRound, addPlayerCount, addComputerCount,
-    setComputerCardVizible, setPlayerCardVizible
+    setComputerCardVizible, setPlayerCardVizible,userWinStop,computerWinStop
 }) => {
 
     const handleClick = () => {
+        roundWinner===playerName?userWinStop():computerWinStop()
         setComputerCardVizible(false)
         setPlayerCardVizible(false)
         setNextRoundVizible(false)

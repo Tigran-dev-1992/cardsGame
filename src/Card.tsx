@@ -7,12 +7,31 @@ import closeCard from './Cards/spades/closekards.gif'
 import NextRound from './NextRound';
 import Players from './Players';
 import { CardContext } from './reducer/cardContext';
+import useSound from 'use-sound';
+import clickUrl from './sound/click.mp3';
+import computerWinUrl from './sound/computerWin.mp3';
+import userWinUrl from './sound/userWin.mp3';
+
+
+
+
+
 
 
 
 
 
 function Card() {
+    const [click]= useSound(clickUrl,{
+        sprite:{
+            in:[0,2000] 
+        }
+    })
+    const [computerWin,{...soundC}]= useSound(computerWinUrl)
+    const [userWin,{...soundU}]= useSound(userWinUrl)
+    const computerWinStop = soundC.stop
+    const userWinStop = soundU.stop
+    
 
     useEffect(() => { Aos.init({ duration: 1500 }) }, [])
 
@@ -42,13 +61,16 @@ function Card() {
         setNextRoundVizible(true)
         setCardShake(false)
         if (userCardIndex > computerCardIndex) {
+            userWin()
             setRoundWinner(playerName)
             addPlayerCount(playerCount + 1)
         }
         else if (userCardIndex < computerCardIndex) {
+            computerWin()
             setRoundWinner("computer")
             addComputerCount(computerCount + 1)
         } else {
+            computerWin()
             setRoundWinner("draw")
         }
     }
@@ -59,6 +81,7 @@ function Card() {
 
     const openCards = () => {
         setCardShake(true)
+        click({id:"in"})
         const playerSuitNum = getNumber(3, 0)
         const playerCardIndex = getNumber(12, 0)
         const computerSuitNum = getNumber(3, 0)
@@ -81,11 +104,11 @@ function Card() {
 
 
     const nextRoundProps = {
-        round, roundWinner, computerCount,
+        round,playerName, roundWinner, computerCount,
         playerCount, setNextRoundVizible,
         setRound, addPlayerCount,
         addComputerCount, setComputerCardVizible,
-        setPlayerCardVizible
+        setPlayerCardVizible,computerWinStop,userWinStop,
     }
 
     const playersProps = {
